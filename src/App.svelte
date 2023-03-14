@@ -22,8 +22,11 @@ async function run() {
 run()
 </script>
 <body>
-    Response: {response}
+    <p>Response: {response}</p>
 </body>
 
 <style>
+  p {
+    color: var(--color)
+  }
 </style>

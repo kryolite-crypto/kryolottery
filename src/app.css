@@ -1,4 +1,7 @@
 :root {
-  color: aliceblue;
-  background-color: #252525;
+  --color: aliceblue;
+  --background-color: #252525;
+}
+body {
+  background-color: var(--background-color);
 }
