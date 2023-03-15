@@ -27,7 +27,7 @@
 
   #barContainer * {
     background-color: #252525;
-    border: solid 1px white;
+    border: solid 1px aliceblue;
     color: aliceblue;
   }
 
