@@ -32,37 +32,18 @@
   }
 
   async function display(contract) {
-    console.log(contract);
-    displayData.push(
-      {
-        text: `${contract.address}`,
-        color: `blue`,
-      },
-      {
-        text: `Entries are ${contract.registeration_open ? "open" : "closed"}`,
-        color: `${contract.registeration_open ? "green" : "red"}`,
-      },
-      {
-        text: `Price: ${contract.ticket_price}`,
-        color: "white",
-      }
-    );
-    // If last winner isn't null, display it
-    if (contract.last_winner.address != "kryo:11111111111111111111111111") {
-      displayData.push(
-        {
-          text: `Last winner: ${contract.last_winner.address}`,
-          color: "white",
-          size: "1em",
-        },
-        {
-          text: `Last won prize: ${contract.last_winner.reward}`,
-          color: "white",
-          size: "1em",
-        }
-      );
-    }
-    displayData = displayData;
+    // @ts-ignore
+    address.innerHTML = `${contract.address}`;
+    // @ts-ignore
+    ticket_price.innerHTML = `ticket_price : ${contract.ticket_price}`;
+    // @ts-ignore
+    registration_open.innerHTML = `registration_open : ${contract.registration_open}`;
+    // @ts-ignore
+    registrants.innerHTML = `registrants : ${contract.registrants}`;
+    // @ts-ignore
+    last_winner_reward.innerHTML = `last_winner_reward : ${contract.last_winner.reward}`;
+    // @ts-ignore
+    last_winner_address.innerHTML = `last_winner_address : ${contract.last_winner.address}`;
   }
 </script>
 
@@ -72,9 +53,22 @@
     submit_button_text="Load"
     on:inputSubmitted={addressInputted}
   />
-  {#if displayData.length > 0}
-    <LotteryDisplay bind:displayable={displayData} />
-  {/if}
+  <div id="lotteryDisplay" class="flex flex-col items-center">
+    <p id="address" class="font-mono text-3xl m-2">[address]</p>
+    <p id="ticket_price" class="font-mono">[ticket_price]</p>
+    <p id="registration_open" class="font-mono">[registration_open]</p>
+    <div id="registrants_container">
+      <p id="registrants" class="font-mono">[registrants]</p>
+    </div>
+    <div id="last_winner" class="flex flex-col items-center m-3">
+      <p id="last_winner_reward" class="font-mono text-xs">
+        [last_winner_reward]
+      </p>
+      <p id="last_winner_address" class="font-mono text-xs">
+        [last_winner_address]
+      </p>
+    </div>
+  </div>
 </body>
 
 <style>

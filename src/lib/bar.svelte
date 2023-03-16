@@ -36,6 +36,7 @@
     width: 90%;
     height: 2rem;
     font-size: 2rem;
+    font-family: monospace;
   }
 
   #barContainer button {
@@ -43,5 +44,6 @@
     width: 4rem;
     height: 4rem;
     font-size: 1rem;
+    font-family: monospace;
   }
 </style>
