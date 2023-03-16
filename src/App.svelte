@@ -61,7 +61,7 @@
   <div class="flex flex-col items-center">
     <div
       id="lotteryDisplay"
-      class="flex flex-col items-center bg-zinc-700 rounded-lg w-11/12"
+      class="flex flex-col items-center bg-zinc-900 rounded-lg w-11/12"
     >
       <p id="address" class="font-mono text-3xl m-2">[address]</p>
       <p id="ticket_price" class="font-mono">[ticket_price]</p>
