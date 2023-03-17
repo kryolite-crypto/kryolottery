@@ -9,8 +9,6 @@
 
 ## Deploy
 
-This will generate a ./dist folder
-
 ```bash
   npm i
   npm run build
