@@ -14,20 +14,35 @@
     addressInputted({ detail: { data: urlParams.get("address") } });
   }
 
+  // Extracting this allows us to have multiple urls to fetch from later on
+  // Such as testnet-1, -2, and -3
+  async function post(url, path, body) {
+    return new Promise((resolve, reject) => {
+      fetch(`${url}${path}`, {
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      })
+        .then((response) => response.json())
+        .then((resObj) => {
+          resolve(resObj);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
   async function addressInputted(event) {
     let address = event.detail.data;
+
     if (!address) return;
-    if (!address.startsWith("kryo:")) return;
+    if (!address.startsWith("kryo:")) return; // All kryo addresses should start with this
     if (address === "kryo:test") address = transactionIDTEST;
 
-    fetch(`${url}/contract/${address}/call`, {
-      body: '{"method": "get_state"}',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    })
-      .then((response) => response.json())
+    post(url, `/contract/${address}/call`, { method: "get_state" }) // https://kryolite-crypto.github.io/api/
       .then((contractObj) => {
         response = JSON.stringify(contractObj);
         contractObj["address"] = address;
@@ -41,6 +56,7 @@
           }
           contractObj["registrants"] = list;
         }
+
         contract = contractObj;
         display();
       })
