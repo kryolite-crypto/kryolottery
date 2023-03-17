@@ -20,7 +20,7 @@
     placeholder={input_placeholder_text}
   />
   <button
-    class="bg-green-300 rounded-sm text-black m-1 h-12 w-12"
+    class="bg-green-300 rounded-sm text-black ml-1 h-12 w-12"
     on:click={inputSubmitted}>{submit_button_text}</button
   >
 </div>

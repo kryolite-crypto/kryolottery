@@ -2,8 +2,8 @@
   import Bar from "./lib/bar.svelte";
 
   const urlParams = new URLSearchParams(window.location.search);
-  const url = "http://127.0.0.1:5000"; // In production will either be testing testnet-1 to -3, but might also just be selectable
-  const transactionIDTEST = "kryo:5VXdN1K7VuSC8es21bbVpmRG4GPrgG5BsYyc"; // This is just a transaction on my local chain, easier to test if it's pre-set
+  const url = "https://testnet-1.kryolite.io"; // TODO: Check multiple places
+  const transactionIDTEST = "kryo:null"; // Set this to something when doing local testing
 
   let response = "";
   let contract;
@@ -25,7 +25,11 @@
         },
         method: "POST",
       })
-        .then((response) => response.json())
+        .then((response) =>
+          response.json().catch((error) => {
+            console.error(error);
+          })
+        )
         .then((resObj) => {
           resolve(resObj);
         })
@@ -49,6 +53,7 @@
 
         if (address === transactionIDTEST) {
           let list = [];
+          list.push("kryo:5VWxQp616QM9k21RumcbKpA3kmAe2QoPDpdv");
           for (let i = 0; i < 32; i++) {
             list.push(
               `kryo:${(Math.random().toString(36) + "0").slice(2, 10 + 2)}`
@@ -105,18 +110,19 @@
       id="lotteryDisplay"
       class="flex flex-col items-center bg-zinc-900 rounded-lg w-11/12"
     >
-      <p id="address" class="font-mono text-3xl m-2 text-slate-100">
-        [address]
-      </p>
+      <p id="address" class="font-mono text-xl m-2 text-slate-100">[address]</p>
       <p id="ticket_price" class="font-mono text-slate-100">[ticket_price]</p>
       <p id="registration_open" class="font-mono text-slate-100">
         [registration_open]
       </p>
       {#if showingRegistrants}
-        <div id="registrants_container">
+        <div
+          id="registrants_container"
+          class="w-96 h-96 flex flex-col items-center"
+        >
           <textarea
             disabled
-            class="bg-slate-600 h-96 w-64 font-mono text-slate-100 rounded-lg"
+            class="bg-slate-600 font-mono w-full h-full text-slate-100 rounded-lg text-center"
             id="registrants"
             name="registrants"
           />
@@ -132,7 +138,7 @@
         >
       {/if}
       {#if showingLastWinner}
-        <div id="last_winner" class="flex flex-col items-center m-3">
+        <div id="last_winner" class="flex flex-col items-center m-5">
           <p id="last_winner_reward" class="font-mono text-xs text-slate-100">
             [last_winner_reward]
           </p>
