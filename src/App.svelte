@@ -99,6 +99,7 @@
       {#if showingRegistrants}
         <div id="registrants_container">
           <textarea
+            disabled
             class="bg-slate-600 h-96 w-64 font-mono text-slate-100 rounded-lg"
             id="registrants"
             name="registrants"
