@@ -110,16 +110,17 @@
       id="lotteryDisplay"
       class="flex flex-col items-center bg-zinc-900 rounded-lg w-11/12"
     >
-      <p id="address" class="font-mono text-xl m-2 text-slate-100">[address]</p>
-      <p id="ticket_price" class="font-mono text-slate-100">[ticket_price]</p>
-      <p id="registration_open" class="font-mono text-slate-100">
+      <p id="address" class="font-mono m-2 text-slate-100 scaletext">
+        [address]
+      </p>
+      <p id="ticket_price" class="font-mono text-slate-100 scaletext">
+        [ticket_price]
+      </p>
+      <p id="registration_open" class="font-mono text-slate-100 scaletext">
         [registration_open]
       </p>
       {#if showingRegistrants}
-        <div
-          id="registrants_container"
-          class="w-96 h-96 flex flex-col items-center"
-        >
+        <div id="registrants_container" class="flex flex-col items-center">
           <textarea
             disabled
             class="bg-slate-600 font-mono w-full h-full text-slate-100 rounded-lg text-center"
@@ -160,4 +161,20 @@
 </body>
 
 <style>
+  .scaletext {
+    font-size: min(4vw, 2em);
+  }
+  #registrants_container {
+    width: max(25vw, 200px);
+    height: 50vh;
+  }
+  #registrants {
+    font-size: max(1vw, 0.5em);
+  }
+  #last_winner_reward {
+    font-size: min(3vw, 1em);
+  }
+  #last_winner_address {
+    font-size: min(2vw, 1em);
+  }
 </style>
