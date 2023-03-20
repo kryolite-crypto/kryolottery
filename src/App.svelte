@@ -162,7 +162,7 @@
 
 <style>
   .scaletext {
-    font-size: min(4vw, 2em);
+    font-size: min(3.5vw, 2em);
   }
   #registrants_container {
     width: max(25vw, 200px);
