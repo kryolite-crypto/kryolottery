@@ -1,4 +1,5 @@
 <script>
+  import Navbar from "./lib/navbar.svelte";
   import Bar from "./lib/bar.svelte";
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -10,6 +11,8 @@
 
   let showingLastWinner = urlParams.get("showWin") === "true" || false;
   let showingRegistrants = urlParams.get("showReg") === "true" || false;
+  let showingBar = urlParams.get("showBar") === "true" || false;
+
   if (urlParams.get("address") != undefined) {
     addressInputted({ detail: { data: urlParams.get("address") } });
   } else {
@@ -64,11 +67,19 @@
 </script>
 
 <body>
-  <Bar
-    input_placeholder_text="Enter lottery address"
-    submit_button_text="Load"
-    on:inputSubmitted={addressInputted}
+  <Navbar
+    buttons={[
+      { text: "Explorer", link: "https://kryolite-crypto.github.io/explorer/" },
+      { text: "Back to menu", link: "https://kryolite.io/" },
+    ]}
   />
+  {#if showingBar}
+    <Bar
+      input_placeholder_text="Enter lottery address"
+      submit_button_text="Load"
+      on:inputSubmitted={addressInputted}
+    />
+  {/if}
   {#if contract}
     <div class="flex flex-col items-center">
       <div
