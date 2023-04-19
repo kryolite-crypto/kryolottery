@@ -3,6 +3,7 @@
 
   const urlParams = new URLSearchParams(window.location.search);
   const url = "https://testnet-1.kryolite.io"; // TODO: Check multiple places
+  const KRYO_DIVISION = 1000000;
 
   let response = "";
   let contract;
@@ -78,7 +79,7 @@
           {contract.address}
         </p>
         <p class="font-mono text-slate-100 scaletext">
-          Entry cost: {contract.ticket_price}
+          Entry cost: {contract.ticket_price / KRYO_DIVISION}
         </p>
         {#if contract.registration_open}
           <p class="font-mono text-slate-100 scaletext">
@@ -113,7 +114,7 @@
             Last winner: {contract.last_winner.address}
           </a>
           <p id="last_winner_reward" class="font-mono text-xs text-slate-100">
-            Last won prize: {contract.last_winner.reward}
+            Last won prize: {contract.last_winner.reward / KRYO_DIVISION}
           </p>
         </div>
       </div>
