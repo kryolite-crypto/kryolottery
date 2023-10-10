@@ -1,9 +1,8 @@
 <script>
   import Navbar from "./lib/navbar.svelte";
 
-  // const url = "https://testnet-1.kryolite.io";
   const contractAddress = "kryo:wea7jcaqpzm8vvdavbxqzv6zewue4f3u8y9wcz3492";
-  const url = "http://localhost:5100";
+  const url = "https://testnet-1.kryolite.io";
   const KRYO_DIVISION = 1000000;
 
   let response = "";
