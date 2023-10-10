@@ -1,26 +1,18 @@
 <script>
   import Navbar from "./lib/navbar.svelte";
-  import Bar from "./lib/bar.svelte";
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const url = "https://testnet-1.kryolite.io"; // TODO: Check multiple places
+  // const url = "https://testnet-1.kryolite.io";
+  const contractAddress = "kryo:wea7jcaqpzm8vvdavbxqzv6zewue4f3u8y9wcz3492";
+  const url = "http://localhost:5100";
   const KRYO_DIVISION = 1000000;
 
   let response = "";
   let contract;
 
-  let showingLastWinner = urlParams.get("showWin") === "true" || false;
-  let showingRegistrants = urlParams.get("showReg") === "true" || false;
-  let showingBar = urlParams.get("showBar") === "true" || false;
-
-  if (urlParams.get("address") != undefined) {
-    addressInputted({ detail: { data: urlParams.get("address") } });
-  } else {
-    // By default give this address:
-    addressInputted({
-      detail: { data: "kryo:5VWWgFqhghrZvPmmXa48ajnd7vTawvYgbT4f" },
-    });
-  }
+  // By default give this address:
+  addressInputted({
+    detail: { data: contractAddress },
+  });
 
   // Extracting this allows us to have multiple urls to fetch from later on
   // Such as testnet-1, -2, and -3
@@ -67,87 +59,125 @@
 </script>
 
 <body>
-  <Navbar
-    buttons={[
-      { text: "Explorer", link: "https://kryolite-crypto.github.io/explorer/" },
-      { text: "Back to menu", link: "https://kryolite.io/" },
-    ]}
-  />
-  {#if showingBar}
-    <Bar
-      input_placeholder_text="Enter lottery address"
-      submit_button_text="Load"
-      on:inputSubmitted={addressInputted}
-    />
-  {/if}
+  <Navbar />
   {#if contract}
-    <div class="flex flex-col items-center">
-      <div
-        id="lotteryDisplay"
-        class="flex flex-col items-center bg-zinc-900 rounded-lg w-11/12"
-      >
-        <p class="font-mono m-2 text-slate-100 scaletext">
-          {contract.address}
-        </p>
-        <p class="font-mono text-slate-100 scaletext">
-          Entry cost: {contract.ticket_price / KRYO_DIVISION}
-        </p>
-        {#if contract.registration_open}
-          <p class="font-mono text-slate-100 scaletext">
-            Registerations are open!
-          </p>
-        {:else}
-          <p class="font-mono text-slate-100 scaletext">
-            Registerations are closed!
-          </p>
-        {/if}
-        <div id="registrants_container" class="flex flex-col items-center">
-          <div
-            class="bg-slate-600 font-mono w-full h-full text-slate-100 rounded-lg text-center"
-            id="registrants"
-          >
-            {#each contract.registrants as registerant}
-              <a
-                class="underline"
-                href="https://kryolite-crypto.github.io/explorer/wallet/?wallet={registerant}"
-                >{registerant}
-              </a>
-            {/each}
+  <div class="main">
+    <div class="info">
+      <p class="title">Info</p>
+      <div class="container">
+          <div class="column">
+            <div class="row">
+              <p class="header">Contract address</p>
+              <p class="text">{contractAddress}</p>
+            </div>
+            <div class="row">
+              <p class="header">Ticket price</p>
+              <p class="text">{(contract.ticket_price / 1_000_000).toFixed(2)} kryo</p>
+            </div>
+            <div class="row">
+              <p class="header">Ticket sale</p>
+              <p class="text">{contract.registration_open ? "Open" : "Closed"}</p>
+            </div>
+            <div class="row">
+              <p class="header">Current pot</p>
+              <p class="text">{(contract.ticket_price * Object.keys(contract.tickets).length / 1_000_000 * 0.99).toFixed(2)} kryo</p>
+            </div>
           </div>
-        </div>
-        <div id="last_winner" class="flex flex-col items-center m-5">
-          <a
-            id="last_winner_address"
-            class="font-mono text-xs text-slate-100 underline"
-            href="https://kryolite-crypto.github.io/explorer/wallet/?wallet={contract
-              .last_winner.address}"
-          >
-            Last winner: {contract.last_winner.address}
-          </a>
-          <p id="last_winner_reward" class="font-mono text-xs text-slate-100">
-            Last won prize: {contract.last_winner.reward / KRYO_DIVISION}
-          </p>
+      </div>
+      <p class="title">Winner</p>
+      <div class="container">
+        <div class="column">
+          <div class="row">
+            <p class="header">Previous winner</p>
+            <p class="text">{contract.last_winner.address}</p>
+          </div>
+          <div class="row">
+            <p class="header">Amount won</p>
+            <p class="text">{(contract.last_winner.reward / 1_000_000).toFixed(2)} kryo</p>
+          </div>
         </div>
       </div>
     </div>
+    <div class="instructions">
+      <p class="title">Instructions</p>
+      <div class="container fill-height">
+          <div class="column">
+            <div style="margin-bottom: 10px;">This is a demo application utilizing Kryolite Standard Token interface.</div>
+            <div>To participate in this lottery you need to buy a token using Kryolite Wallet.</div>
+            <ul>
+              <li>Open wallet and go to Send tab</li>
+              <li>Select wallet where to send funds from</li>
+              <li>Copy {contractAddress} to recipient field, this is the contract address</li>
+              <li>Amount to send: {(contract.ticket_price / 1_000_000)}</li>
+              <li>From the next dropdown select <i>Buy ticket</i></li>
+              <li>Click Send</li>
+              <li>Wait for transaction to complete</li>
+              <li>Your wallet should receive token named <i>Lottery Ticket #X</i></li>
+            </ul>
+            <div style="margin-bottom: 10px;">
+              Multiple tickets can be bought for same draw. If you don't see the dropdown which lets you select <i>Buy ticket</i> your walelt might not have fully synchronized yet.
+            </div>
+            <div>
+              After winner has been selected old tokens in your wallet will show up as consumed and they will not participate in future draws.
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  <p class="title">Sold tickets</p>
+  <div class="container">
+    <div class="column">
+      <p class="header">Address</p>
+      {#each Object.entries(contract.address_to_tickets) as [address, tickets]}
+      <p class="text">
+        <a href="https://kryolite-crypto.github.io/explorer/wallet/?wallet={address}">{address}</a>
+      </p>
+    {/each}
+    </div>
+    <div class="column">
+      <p class="header">Tickets bought</p>
+      {#each Object.entries(contract.address_to_tickets) as [address, tickets]}
+      <p class="text">
+        {tickets.length}
+      </p>
+    {/each}
+    </div>
+    <div class="column">
+      <p class="header">Chance to win</p>
+      {#each Object.entries(contract.address_to_tickets) as [address, tickets]}
+      <p class="text">
+        {(tickets.length / contract.tickets_sold * 100).toFixed(2)} %
+      </p>
+    {/each}
+    </div>
+  </div>
   {/if}
 </body>
 
 <style>
-  .scaletext {
-    font-size: min(3.5vw, 2em);
-  }
-  #registrants_container {
-    width: max(25vw, 200px);
-    height: 50vh;
-  }
-  #registrants {
-    font-size: max(1vw, 0.5em);
-  }
-  #last_winner_reward {
-    font-size: min(3vw, 1em);
-  }
-  #last_winner_address {
-    font-size: min(2vw, 1em);
-  }
+    .main {
+        display:flex;
+        align-content: space-between;
+        margin-bottom: 80px;
+    }
+
+    .info {
+        min-width: 50%;
+        margin-right: 20px;
+        height: 100%;
+        margin-bottom: -59px;
+    }
+
+    .instructions {
+        width: 50%;
+    }
+
+    .row {
+      margin-bottom: 20px;
+    }
+
+    .fill-height {
+      height: 100%;
+    }
 </style>

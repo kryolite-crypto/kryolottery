@@ -1,46 +1,60 @@
 <script>
-  export let buttons = [];
+
 </script>
 
-<div id="navbar" class="mb-10 mt-1 flex justify-between">
-  <pre class="text-white">
+<div class="navbar">
+  <div class="title-container">
+  <pre class="logo">
 █▄▀ █▀▄ ▀▄▀ ▄▀▄ █   █ ▀█▀ ██▀
 █ █ █▀▄  █  ▀▄▀ █▄▄ █  █  █▄▄
   </pre>
-  <div id="buttoncontainer" class="flex flex-row">
-    {#each buttons as button}
-      <button
-        on:click={() => {
-          window.location.href = button.link;
-        }}
-        class="hover:bg-blue-200 text-gray-800 bg-slate-200 rounded mr-3 scalebutton"
-      >
-        {button.text}
-      </button>
-    {/each}
-  </div>
+  <span class="subtitle">Saturday Night Lotto</span>
+</div>
+  <!--div class="links">
+    <a href="/">Explorer</a>
+  </div-->
 </div>
 
 <style>
-  .scalebutton {
-    height: 3rem;
-    width: 7rem;
+  .title-container {
+    color: white;
+    opacity: 0.7;
+    display: flex;
+    align-items: end;
+    height: 32px;
   }
-  @media only screen and (max-width: 768px) {
-    .scalebutton {
-      height: 2rem;
-      width: 100%;
-    }
-    #navbar {
-      flex-direction: column;
-      align-items: center;
-    }
-    #buttoncontainer {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      grid-column-gap: 0.5rem;
-      grid-row-gap: 0.5rem;
-    }
+
+  .subtitle {
+    margin-bottom: -4px;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .logo {
+    margin: 0;
+    margin-right: 20px;
+    margin-top: -1px;
+    align-self: normal;
+  }
+
+  .links {
+    border-color: #a9a9a9;
+    border-style: solid;
+    border-width: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .links a {
+    color: white;
+    text-decoration: none;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 15px;
+    margin-right: 15px;
   }
 </style>
